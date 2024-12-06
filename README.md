@@ -17,7 +17,7 @@ Follow these steps to get the project up and running:
 ### 1. Clone the repository
 ```bash
 git clone https://github.com/yourusername/blogify.git
-
+```bash
 ### 2. Install dependencies
 ```bash
 cd blogify
