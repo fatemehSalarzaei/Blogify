@@ -24,7 +24,7 @@ cd blogify
 pip install -r requirements.txt
 ```
 
-###3. Set up the database
+### 3. Set up the database
 ```bash
 python manage.py migrate
 ```
