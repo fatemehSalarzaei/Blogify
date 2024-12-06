@@ -50,6 +50,7 @@ class Post(models.Model):
     )
     tags = models.ManyToManyField(Tag, related_name='posts', blank=True) 
     image = models.ImageField(upload_to='posts/images/', null=True, blank=True) 
+    published_at = models.DateTimeField(null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     is_published = models.BooleanField(default=False)
