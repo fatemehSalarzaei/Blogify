@@ -17,28 +17,32 @@ Follow these steps to get the project up and running:
 ### 1. Clone the repository
 ```bash
 git clone https://github.com/yourusername/blogify.git
-```bash
+```
 ### 2. Install dependencies
 ```bash
 cd blogify
 pip install -r requirements.txt
+```
 
 ###3. Set up the database
 ```bash
 python manage.py migrate
+```
 
 ### 4. Create a superuser to access the admin panel
 ```bash
 python manage.py createsuperuser
+```
 
 ### 5. Run the development server
 ```bash
 python manage.py runserver
+```
 
 ### 6. Open your browser and go to:
 ```bash
 http://127.0.0.1:8000
-
+```
 
 
 
