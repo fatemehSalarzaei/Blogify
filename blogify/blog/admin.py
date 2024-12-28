@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Category, Tag, Post
+from .models import Category, Tag, Post , Comment  , Bookmark, Like
 
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
@@ -35,3 +35,23 @@ class PostAdmin(admin.ModelAdmin):
             'fields': ('meta_title', 'meta_description')
         }),
     )
+
+
+@admin.register(Comment)
+class CommentAdmin(admin.ModelAdmin):
+    list_display = ('post', 'user', 'created_at', 'is_approved')
+    search_fields = ('post__title', 'user__username', 'content')
+    list_filter = ('is_approved', 'created_at')
+
+
+@admin.register(Bookmark)
+class BookmarkAdmin(admin.ModelAdmin):
+    list_display = ('post', 'user', 'created_at')
+    search_fields = ('post__title', 'user__username')
+    list_filter = ('created_at',)
+
+@admin.register(Like)
+class LikeAdmin(admin.ModelAdmin):
+    list_display = ('post', 'user', 'created_at')
+    search_fields = ('post__title', 'user__username')
+    list_filter = ('created_at',)

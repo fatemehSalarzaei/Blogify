@@ -1,24 +1,28 @@
 from django.contrib import admin
+from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
+from .models import CustomUser, Author
 
-from account.models import *
+class CustomUserAdmin(BaseUserAdmin):
+    fieldsets = (
+        (None, {'fields': ('email', 'username', 'password')}),
+        ('Personal Info', {'fields': ('full_name', 'bio', 'profile_picture', 'phone_number')}),
+        ('Permissions', {'fields': ('is_active', 'is_staff', 'is_superuser', 'groups', 'user_permissions')}),
+        ('Important dates', {'fields': ('last_login', 'created_at', 'updated_at')}),
+    )
+    add_fieldsets = (
+        (None, {
+            'classes': ('wide',),
+            'fields': ('email', 'username', 'password1', 'password2', 'is_active', 'is_staff', 'is_superuser'),
+        }),
+    )
+    list_display = ('email', 'username', 'is_active', 'is_staff', 'is_superuser', 'created_at')
+    search_fields = ('email', 'username')
+    ordering = ('email',)
 
-@admin.register(CustomUser)
-class CustomUserAdmin(admin.ModelAdmin):
-    list_display = ('username', 'email', 'is_active', 'is_staff', 'created_at') 
-    search_fields = ('username', 'email', 'full_name') 
-    list_filter = ('is_active', 'is_staff', 'created_at')  
-
-@admin.register(Author)
 class AuthorAdmin(admin.ModelAdmin):
-    list_display = ('user', 'get_email', 'get_username', 'bio') 
-    search_fields = ('user__username', 'user__email', 'bio') 
-    list_filter = ('user__is_active', )  
-    autocomplete_fields = ('user',)  
+    list_display = ('user', 'expertise', 'website')
+    search_fields = ('user__username', 'expertise', 'website')
+    list_filter = ('user__is_active',)
 
-    def get_email(self, obj):
-        return obj.user.email
-    get_email.short_description = 'Email'
-
-    def get_username(self, obj):
-        return obj.user.username
-    get_username.short_description = 'Username'
+admin.site.register(CustomUser, CustomUserAdmin)
+admin.site.register(Author, AuthorAdmin)
