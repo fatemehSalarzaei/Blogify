@@ -1,23 +1,16 @@
-from django.urls import path, include
 from rest_framework.routers import DefaultRouter
-from .views import (
-    PostAdminViewSet, CommentAdminViewSet, BookmarkAdminViewSet, LikeAdminViewSet,
-    PostUserViewSet, CommentUserViewSet, BookmarkUserViewSet, LikeUserViewSet
-)
+from .views import PostAdminViewSet, CommentAdminViewSet, BookmarkAdminViewSet, LikeAdminViewSet, PostUserViewSet, CommentUserViewSet, BookmarkUserViewSet, LikeUserViewSet
 
-router_admin = DefaultRouter()
-router_admin.register(r'posts', PostAdminViewSet)
-router_admin.register(r'comments', CommentAdminViewSet)
-router_admin.register(r'bookmarks', BookmarkAdminViewSet)
-router_admin.register(r'likes', LikeAdminViewSet)
+router = DefaultRouter()
 
-router_user = DefaultRouter()
-router_user.register(r'posts', PostUserViewSet)
-router_user.register(r'comments', CommentUserViewSet)
-router_user.register(r'bookmarks', BookmarkUserViewSet)
-router_user.register(r'likes', LikeUserViewSet)
+router.register(r'admin/posts', PostAdminViewSet, basename='admin-post')
+router.register(r'admin/comments', CommentAdminViewSet, basename='admin-comment')
+router.register(r'admin/bookmarks', BookmarkAdminViewSet, basename='admin-bookmark')
+router.register(r'admin/likes', LikeAdminViewSet, basename='admin-like')
 
-urlpatterns = [
-    path('admin/', include(router_admin.urls)),
-    path('user/', include(router_user.urls)),
-]
+router.register(r'posts', PostUserViewSet, basename='post')
+router.register(r'comments', CommentUserViewSet, basename='comment')
+router.register(r'bookmarks', BookmarkUserViewSet, basename='bookmark')
+router.register(r'likes', LikeUserViewSet, basename='like')
+
+urlpatterns = router.urls

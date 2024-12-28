@@ -16,7 +16,7 @@ class PostFilter(django_filters.FilterSet):
 
 # Admin Views
 
-class PostViewSet(viewsets.ModelViewSet):
+class PostAdminViewSet(viewsets.ModelViewSet):
     queryset = Post.objects.all()
     serializer_class = PostSerializer
     permission_classes = [IsAdminUser]
@@ -55,27 +55,33 @@ class PostUserViewSet(viewsets.ReadOnlyModelViewSet):
     filterset_class = PostFilter
 
 class CommentUserViewSet(viewsets.ModelViewSet):
-    queryset = Comment.objects.filter(is_approved=True)
     serializer_class = CommentSerializer
     permission_classes = [IsAuthenticated]
     search_fields = ['content', 'post__title']
     filter_backends = (filters.SearchFilter, DjangoFilterBackend)
 
+    def get_queryset(self):
+        return Comment.objects.filter(user=self.request.user, is_approved=True)
+
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
 
 class BookmarkUserViewSet(viewsets.ModelViewSet):
-    queryset = Bookmark.objects.filter(user=self.request.user)
     serializer_class = BookmarkSerializer
     permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        return Bookmark.objects.filter(user=self.request.user)
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
 
 class LikeUserViewSet(viewsets.ModelViewSet):
-    queryset = Like.objects.filter(user=self.request.user)
     serializer_class = LikeSerializer
     permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        return Like.objects.filter(user=self.request.user)
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
